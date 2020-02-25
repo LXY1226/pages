@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imlxy.net</id>
     <title>LMonobook</title>
-    <updated>2020-02-25T01:57:32.971Z</updated>
+    <updated>2020-02-25T02:36:57.053Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imlxy.net"/>
     <link rel="self" href="https://imlxy.net/atom.xml"/>
@@ -10,6 +10,102 @@
     <logo>https://imlxy.net/images/avatar.png</logo>
     <icon>https://imlxy.net/favicon.ico</icon>
     <rights>All rights reserved 2020, LMonobook</rights>
+    <entry>
+        <title type="html"><![CDATA[Alpine下安装typecho时php的那些锅]]></title>
+        <id>https://imlxy.net/typecho-alpine/</id>
+        <link href="https://imlxy.net/typecho-alpine/">
+        </link>
+        <updated>2020-02-25T02:36:30.000Z</updated>
+        <content type="html"><![CDATA[<p>In a nutshell:<br>
+apk add php7-pdo_mysql php7-ctype php7-tokenizer<br>
+其实锅不算多...<br>
+就是alpine的php太精简<del>简陋</del></p>
+<p>大概是这样的..</p>
+<p>从Aliyun的Debian迁到Huawei的Alpine....<br>
+这中间有了许许多多的许许多多，比如首先解决的fastcgi的sock...<br>
+在debian里是正常的sock..在这全都Permission Denied，mysql也不例外(也许<br>
+但是对于上面这条，简单地把conf里的sock改成port即可<br>
+nginx中<br>
+#fastcgi_pass unix:/run/php-fpm7/php-fpm.sock;<br>
+fastcgi_pass 127.0.0.1:9000;<br>
+即可<br>
+mysql中[/etc/my.cnf.d/mariadb-server.cnf]添加<br>
+port = 3306<br>
+也轻松解决</p>
+<hr>
+<p>然后开页面 疯狂报错的开始：</p>
+<pre><code>Database Server Error
+</code></pre>
+<p>然后百思不得姐，最后想起找nginx的log：</p>
+<blockquote>
+<p>PHP message: Adapter Typecho_Db_Adapter_Pdo_Mysql is not available</p>
+</blockquote>
+<p>瞎装了一堆php7-mysql php7-odbc之后发现屁用没有<br>
+最后想起来药没吃<br>
+apk add php7-pdo_mysql<br>
+然后还有很多例如</p>
+<blockquote>
+<p>Call to undefined function ctype_alnum()<br>
+apk add php7-ctype<br>
+Call to undefined function token_get_all()<br>
+apk add php7-tokenizer</p>
+</blockquote>
+<p>遂解决之</p>
+<hr>
+<p>然后想了一堆之后...<br>
+Debian的glibc似乎要比alpine的muslC快一些...<br>
+血亏血亏<br>
+不过...探寻新技术的路上总是好玩的</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Alpine下安装typecho时php的那些锅]]></title>
+        <id>https://imlxy.net/x2nEuz_HU/</id>
+        <link href="https://imlxy.net/x2nEuz_HU/">
+        </link>
+        <updated>2020-02-25T02:36:30.000Z</updated>
+        <content type="html"><![CDATA[<p>In a nutshell:<br>
+apk add php7-pdo_mysql php7-ctype php7-tokenizer<br>
+其实锅不算多...<br>
+就是alpine的php太精简<del>简陋</del></p>
+<p>大概是这样的..</p>
+<p>从Aliyun的Debian迁到Huawei的Alpine....<br>
+这中间有了许许多多的许许多多，比如首先解决的fastcgi的sock...<br>
+在debian里是正常的sock..在这全都Permission Denied，mysql也不例外(也许<br>
+但是对于上面这条，简单地把conf里的sock改成port即可<br>
+nginx中<br>
+#fastcgi_pass unix:/run/php-fpm7/php-fpm.sock;<br>
+fastcgi_pass 127.0.0.1:9000;<br>
+即可<br>
+mysql中[/etc/my.cnf.d/mariadb-server.cnf]添加<br>
+port = 3306<br>
+也轻松解决</p>
+<hr>
+<p>然后开页面 疯狂报错的开始：</p>
+<pre><code>Database Server Error
+</code></pre>
+<p>然后百思不得姐，最后想起找nginx的log：</p>
+<blockquote>
+<p>PHP message: Adapter Typecho_Db_Adapter_Pdo_Mysql is not available</p>
+</blockquote>
+<p>瞎装了一堆php7-mysql php7-odbc之后发现屁用没有<br>
+最后想起来药没吃<br>
+apk add php7-pdo_mysql<br>
+然后还有很多例如</p>
+<blockquote>
+<p>Call to undefined function ctype_alnum()<br>
+apk add php7-ctype<br>
+Call to undefined function token_get_all()<br>
+apk add php7-tokenizer</p>
+</blockquote>
+<p>遂解决之</p>
+<hr>
+<p>然后想了一堆之后...<br>
+Debian的glibc似乎要比alpine的muslC快一些...<br>
+血亏血亏<br>
+不过...探寻新技术的路上总是好玩的</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Guide:从一网通导出课表]]></title>
         <id>https://imlxy.net/guide-one/</id>
@@ -46,7 +142,12 @@ In a nutshell:<br>
 <p>总结的结论就是...暂时不清楚原因<br>
 但是某次碰巧搞定了这破毛病</p>
 <hr>
-<p>按住<code>Shift</code>点击重启</p>
+<p>按住<code>Shift</code>点击重启 依次选择 高级选项、固件设置 然后重启</p>
+<p>2.修改BIOS<br>
+进入bios之后，使用键盘↑、↓、←、→箭头及Enter键找选到&quot;Intel Platform Trust Technology&quot;，Enter选中，将Enabled改为Disabled，最后按F10保存，退出，重启<br>
+顺便，上述选项常见于Security选项卡</p>
+<h2 id="end">END</h2>
+<p>有其他疑问请联系QQ 767763591，表明来意以及如何称呼。</p>
 ]]></content>
     </entry>
     <entry>

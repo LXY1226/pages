@@ -54,24 +54,51 @@
         <main id="main" class="site-main" role="main">
             <article id="post-1270" class="post-1270 post type-post status-publish format-standard hentry category-90 category-129 tag-149">
                 <header class="entry-header">
-                    <h1 class="entry-title">关于某些平台C语言程序无法正常编译或运行的解决方案</h1>
-                    <p class="entry-census">发布于 2020-02-24</p>
+                    <h1 class="entry-title">Alpine下安装typecho时php的那些锅</h1>
+                    <p class="entry-census">发布于 2020-02-25</p>
                     <hr>
                 </header>
                 <div class="neko">
-                    <p>解决一下</p>
-<!-- more -->
-<p>本文的目标或许很广泛，但其主要目标为运行程序时提示<br>
-<code>不支持的16位应用程序</code>和<code>操作成功完成 但是什么都没发生</code>这两种情况</p>
-<p>总结的结论就是...暂时不清楚原因<br>
-但是某次碰巧搞定了这破毛病</p>
+                    <p>In a nutshell:<br>
+apk add php7-pdo_mysql php7-ctype php7-tokenizer<br>
+其实锅不算多...<br>
+就是alpine的php太精简<del>简陋</del></p>
+<p>大概是这样的..</p>
+<p>从Aliyun的Debian迁到Huawei的Alpine....<br>
+这中间有了许许多多的许许多多，比如首先解决的fastcgi的sock...<br>
+在debian里是正常的sock..在这全都Permission Denied，mysql也不例外(也许<br>
+但是对于上面这条，简单地把conf里的sock改成port即可<br>
+nginx中<br>
+#fastcgi_pass unix:/run/php-fpm7/php-fpm.sock;<br>
+fastcgi_pass 127.0.0.1:9000;<br>
+即可<br>
+mysql中[/etc/my.cnf.d/mariadb-server.cnf]添加<br>
+port = 3306<br>
+也轻松解决</p>
 <hr>
-<p>按住<code>Shift</code>点击重启 依次选择 高级选项、固件设置 然后重启</p>
-<p>2.修改BIOS<br>
-进入bios之后，使用键盘↑、↓、←、→箭头及Enter键找选到&quot;Intel Platform Trust Technology&quot;，Enter选中，将Enabled改为Disabled，最后按F10保存，退出，重启<br>
-顺便，上述选项常见于Security选项卡</p>
-<h2 id="end">END</h2>
-<p>有其他疑问请联系QQ 767763591，表明来意以及如何称呼。</p>
+<p>然后开页面 疯狂报错的开始：</p>
+<pre><code>Database Server Error
+</code></pre>
+<p>然后百思不得姐，最后想起找nginx的log：</p>
+<blockquote>
+<p>PHP message: Adapter Typecho_Db_Adapter_Pdo_Mysql is not available</p>
+</blockquote>
+<p>瞎装了一堆php7-mysql php7-odbc之后发现屁用没有<br>
+最后想起来药没吃<br>
+apk add php7-pdo_mysql<br>
+然后还有很多例如</p>
+<blockquote>
+<p>Call to undefined function ctype_alnum()<br>
+apk add php7-ctype<br>
+Call to undefined function token_get_all()<br>
+apk add php7-tokenizer</p>
+</blockquote>
+<p>遂解决之</p>
+<hr>
+<p>然后想了一堆之后...<br>
+Debian的glibc似乎要比alpine的muslC快一些...<br>
+血亏血亏<br>
+不过...探寻新技术的路上总是好玩的</p>
 
                 </div>
             </article>
@@ -81,20 +108,14 @@
         <div class="mdui-container">
             <div class="mdui-row">
                 
-                <a href="https://imlxy.net/guide-one/" class="mdui-ripple mdui-color-theme mdui-col-xs-2 mdui-col-sm-6 doc-footer-nav-left">
-                    <div class="doc-footer-nav-text">
-                        <i class="mdui-icon material-icons">arrow_back</i>
-                        <span class="doc-footer-nav-direction mdui-hidden-xs-down">上一篇文章</span>
-                        <div class="doc-footer-nav-chapter mdui-hidden-xs-down">Guide:从一网通导出课表</div>
-                    </div>
-                </a>
+                <div class="mdui-col-xs-2 mdui-col-sm-6 doc-footer-nav-left"></div>
                 
                 
-                <a href="https://imlxy.net/died-typecho/" class="mdui-ripple mdui-color-theme mdui-col-xs-10 mdui-col-sm-6 doc-footer-nav-right">
+                <a href="https://imlxy.net/x2nEuz_HU/" class="mdui-ripple mdui-color-theme mdui-col-xs-10 mdui-col-sm-6 doc-footer-nav-right">
                     <div class="doc-footer-nav-text">
                         <i class="mdui-icon material-icons">arrow_forward</i>
                         <span class="doc-footer-nav-direction">下一篇文章</span>
-                        <div class="doc-footer-nav-chapter">欢迎使用 Typecho</div>
+                        <div class="doc-footer-nav-chapter">Alpine下安装typecho时php的那些锅</div>
                     </div>
                 </a>
                 
