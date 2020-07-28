@@ -21,8 +21,16 @@
     background-size: cover;
 }*/
 
+#TDoll {
+    position: fixed;
+    z-index: 9;
+    bottom: 5px;
+    left: 5px;
+}
+
 .centerbg{
     background-image: url(../img/centerbg.jpg);
+    height: 100vh;
     margin:0;
     background-attachment: fixed;
     background-size: cover;
