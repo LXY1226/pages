@@ -94,13 +94,13 @@
         }
 
         function renderArticle(ev) {
-            if (ev.target.href)
+            if (ev.target.href) { // 点击跳转
                 location.hash = ev.target.href.split('#')[1];
-            let id = location.hash.slice(1)
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
             try {
-                let article = articles[id];
+                let article = articles[location.hash.slice(1)];
                 h1.innerText = article.article_title;
                 cover.src = article.article_cover;
                 main.innerHTML = article.article_content;
