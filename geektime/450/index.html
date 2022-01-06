@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编程高手必学的内存知识</title>
+    <style>
+        :root {
+            font-family: "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", Helvetica, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        body {
+            background-color: black;
+            color: lightgray;
+            font-size: 17px;
+            margin: 0 auto;
+            padding: 20px 20px;
+            max-width: 720px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6em;
+        }
+
+        img {
+            width: 100%;
+            border-radius: .5em;
+        }
+
+        strong {
+            color: white;
+        }
+
+        a,
+        a:visited {
+            text-decoration: none;
+            color: cyan
+        }
+
+        code {
+            font-family: "Fira Code", "Fira Mono", "Fira Mono for Powerline", "Fira Code Retina", "Fira Code Retina for Powerline", "Source Code Pro", Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: .8em;
+            line-height: 1.4em;
+            display: block;
+            overflow-x: auto;
+            padding: 1em;
+        }
+        #prev::before {
+            content: "上一节："
+        }
+        #next::before {
+            content: "下一节：";
+        }
+    </style>
+
+</head>
+
+<body>
+    <a id="prev" href="#"></a>
+    <h1></h1>
+    <img id="cover" alt="cover"
+        src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='>
+    <main></main>
+    <a id="next" href="#"></a>
+    <script defer src="https://cdn.staticfile.org/highlight.js/11.3.1/highlight.min.js"></script>
+    <script defer src="https://cdn.staticfile.org/highlight.js/11.3.1/languages/protobuf.min.js"></script>
+    <script defer src="info.js"></script>
+    <script defer>
+        const $ = v => document.querySelector(v);
+        const h1 = $('h1');
+        const main = $('main');
+        const cover = $('#cover');
+        const prev = $('#prev');
+        const next = $('#next');
+        function bindA(elem, data) {
+                if (data.length == undefined) {
+                    elem.href = `#${data.id}`;
+                    elem.innerText = data.article_title;
+                    elem.onclick = renderArticle;
+                } else {
+                    elem.removeAttribute('href');
+                    elem.innerText = "没有了";
+                    elem.onclick = null;
+                }
+        
+        }
+
+        function renderArticle(ev) {
+            if (ev.target.href) { // 点击跳转
+                location.hash = ev.target.href.split('#')[1];
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+            try {
+                let article = articles[location.hash.slice(1)];
+                h1.innerText = article.article_title;
+                cover.src = article.article_cover;
+                main.innerHTML = article.article_content;
+                hljs.highlightAll();
+                // location.hash = id
+                bindA(prev, article.neighbors.left)
+                bindA(next, article.neighbors.right)
+            } catch (e) {
+                console.log(e)
+                location.hash = `#${firstArticle}`
+                renderArticle(ev);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', renderArticle);
+    </script>
+    <!-- <link href="https://cdn.staticfile.org/highlight.js/11.3.1/styles/base16/darcula.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.staticfile.org/highlight.js/11.3.1/styles/atom-one-dark-reasonable.min.css"
+        rel="stylesheet">
+</body>
+
+</html>

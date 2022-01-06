@@ -54,7 +54,7 @@ POST https://time.geekbang.org/serv/v1/article
                     "include_neighbors": true,
                     "is_freelyread": true
                 });
-                await sleep(30*1000)
+                await sleep(15*1000)
             }
             let d = {}
             data.articles.forEach(a => {
