@@ -20,6 +20,13 @@
         item.elem = elem;
         item.orderUnit = parseFloat(prices[0].getAttribute("minordernum"));
         item.price = [];
+        var stock = elem.querySelector(".stock-nums-js").querySelector("span").innerText // 这里换仓 (gd/js
+            item.stock = parseInt(stock)
+        if (stock.indexOf("K") != -1) {
+            item.stock *= 1000
+        }
+        if (item.stock == 0)
+            return;
         for (const price of prices) {
             item.price.push([parseFloat(price.getAttribute("data-startpurchasednumber")), parseFloat(price.getAttribute("data-endpurchasednumber")), item.orderUnit * parseFloat(price.getAttribute("orderprice"))])
         }
@@ -46,9 +53,9 @@
             // solution.sort((a,b) => (a.price - b.price))
         }
         for (const item of data) {
-            const { orderUnit, price } = item;
+            const { price, stock } = item;
             for (const [start, end, unitPrice] of price) {
-                for (let i = start; i <= end == -1 ? Infinity : end ; i++) {
+                for (let i = start; i <= end == -1 ? Infinity : Math.min(end, stock) ; i++) {
                     const price = unitPrice*i;
                     const it = {
                         item: item,
