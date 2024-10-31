@@ -55,7 +55,7 @@
         for (const item of data) {
             const { price, stock } = item;
             for (const [start, end, unitPrice] of price) {
-                for (let i = start; i <= end == -1 ? Infinity : Math.min(end, stock) ; i++) {
+                for (let i = start; i <= (end == -1 ? Infinity : Math.min(end, stock)) ; i++) {
                     const price = unitPrice*i;
                     const it = {
                         item: item,
